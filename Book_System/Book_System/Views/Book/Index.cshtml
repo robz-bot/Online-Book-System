@@ -4,88 +4,48 @@
 }
 
 <head>
-    @*<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">*@
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
+        crossorigin="anonymous">
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
     <script src="~/Scripts/angular.min.js"></script>
     <script src="~/Scripts/jsAngular.Utility.js"></script>
     <script src="~/Scripts/jquery-3.4.1.js"></script>
     <script src="~/Scripts/jquery-3.4.1.min.js"></script>
     <script src="~/Scripts/Book/jsBook.js"></script>
-    @*<link href="~/Content/cssBook.css" rel="stylesheet" />*@
+    <link href="~/Content/cssBook.css" rel="stylesheet" />
 
 </head>
-<br/>
 <body ng-app="BookApp" ng-controller="BookController">
-    
-    <div>
-        <div class="mb-3 row" >
-            <label class="col-sm-2 col-form-label">Client Name</label>
-            <div class="col-sm-10">
-                <span class="input-group-text" id="basic-addon1"></span>
-                <input type="text" class="form-control"
-                       id="staticEmail" ng-model="Book.ClientName">
-            </div>
-            <label class="col-sm-2 form-label">Book Name</label>
-            <div class="col-sm-10">
-                <select class="form-control" ng-model="Book.BookId" id="drop">
-                    <option value="">--Select Book--</option>
-                    <option ng-repeat="list in getBookList" value="{{list.BookId}}">
-                        {{list.BookName}}
-                    </option>
-                </select>
-                @*<select class="form-control"
-                            ng-options="list.BookId as list.BookName for list in getBookList"
-                            ng-model="Book.BookName" id="drop">
-                        <option value="">--Select Book--</option>
-                    </select>*@
-            </div>
-            <label class="col-sm-2 col-form-label">Purchased Date</label>
-            <div class="col-sm-10">
-                <input type="date" class="form-control"
-                       id="date" ng-model="Book.PurchaseDate">
-            </div>
-            <label class="col-sm-2 col-form-label">Book Rate</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control"
-                       id="bookrate" ng-model="Book.BookRate">
-            </div>
-            <label class="col-sm-2 col-form-label">Contact Number</label>
-            <div class="col-sm-10">
-                <input type="number" class="form-control"
-                       id="contact" ng-model="Book.ContactNumber">
-            </div>
-            <label class="col-sm-2 col-form-label">Email ID</label>
-            <div class="col-sm-10">
-                <input type="email" class="form-control"
-                       id="email" ng-model="Book.Email">
-            </div>
-            <label class="col-sm-2 col-form-label">Age</label>
-            <div class="col-sm-10">
-                <input type="number" class="form-control"
-                       id="age" ng-model="Book.Age">
-            </div>
-            <label class="col-sm-2 col-form-label">Address</label>
-            <div class="col-sm-10">
-                <textarea class="form-control"
-                          id="address" ng-model="Book.Address"></textarea>
-            </div>
-            <label class="col-sm-2 col-form-label"></label>
-            <div class="col-sm-10">
-                <button type="button" class="btn btn-primary" ng-click="saveClientDetails(Book)">Save</button>
-            </div>
-        </div>
-        
-        <ul>
-            <li class="left-half">
-                <article>
-                    <div class="mb-3 row">
-                        <label class="col-sm-2 col-form-label">Client Name</label>
-                        <div class="col-sm-10">
-                            <span class="input-group-text" id="basic-addon1"></span>
+    <br />
+   
+    <div class="row no-gutters warning">
+       
+        <div class="col-md-6 no-gutters">
+            <div class="leftside d-flex justify-content-center ">
+                <table>
+                    <tr>
+                        <td>
+                            <div class="badge bg-warning"
+                                 style="color:black">Fill Out The Below Client Form
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Client Name
+                        </td>
+                        <td>
                             <input type="text" class="form-control"
                                    id="staticEmail" ng-model="Book.ClientName">
-                        </div>
-                        <label class="col-sm-2 form-label">Book Name</label>
-                        <div class="col-sm-10">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Book Name
+                        </td>
+                        <td>
                             <select class="form-control" ng-model="Book.BookId" id="drop">
                                 <option value="">--Select Book--</option>
                                 <option ng-repeat="list in getBookList" value="{{list.BookId}}">
@@ -93,57 +53,120 @@
                                 </option>
                             </select>
                             @*<select class="form-control"
-                    ng-options="list.BookId as list.BookName for list in getBookList"
-                    ng-model="Book.BookName" id="drop">
-                <option value="">--Select Book--</option>
-            </select>*@
-                        </div>
-                        <label class="col-sm-2 col-form-label">Purchased Date</label>
-                        <div class="col-sm-10">
+                            ng-options="list.BookId as list.BookName for list in getBookList"
+                            ng-model="Book.BookName" id="drop">
+                        <option value="">--Select Book--</option>
+                    </select>*@
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Purchase Date
+                        </td>
+                        <td>
                             <input type="date" class="form-control"
                                    id="date" ng-model="Book.PurchaseDate">
-                        </div>
-                        <label class="col-sm-2 col-form-label">Book Rate</label>
-                        <div class="col-sm-10">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Book Rate
+                        </td>
+                        <td>
                             <input type="text" class="form-control"
                                    id="bookrate" ng-model="Book.BookRate">
-                        </div>
-                        <label class="col-sm-2 col-form-label">Contact Number</label>
-                        <div class="col-sm-10">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Contact Number
+                        </td>
+                        <td>
                             <input type="number" class="form-control"
                                    id="contact" ng-model="Book.ContactNumber">
-                        </div>
-                        <label class="col-sm-2 col-form-label">Email ID</label>
-                        <div class="col-sm-10">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Email
+                        </td>
+                        <td>
                             <input type="email" class="form-control"
                                    id="email" ng-model="Book.Email">
-                        </div>
-                        <label class="col-sm-2 col-form-label">Age</label>
-                        <div class="col-sm-10">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Age
+                        </td>
+                        <td>
                             <input type="number" class="form-control"
                                    id="age" ng-model="Book.Age">
-                        </div>
-                        <label class="col-sm-2 col-form-label">Address</label>
-                        <div class="col-sm-10">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Address
+                        </td>
+                        <td>
                             <textarea class="form-control"
                                       id="address" ng-model="Book.Address"></textarea>
-                        </div>
-                        <label class="col-sm-2 col-form-label"></label>
-                        <div class="col-sm-10">
-                            <button type="button" class="btn btn-primary" ng-click="saveClientDetails(Book)">Save</button>
-                        </div>
-                    </div>
-                </article>
-            </li>
-            <li class="right-half">
-                <article>
-                    <h1>Right Half</h1>
-                    <p>If your knees aren't green by the end of the day, you ought to seriously re-examine your life.</p>
-                </article>
-            </li>
-        </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-primary" 
+                                    ng-click="saveClientDetails(Book)">Save</button>
+                            <button type="button" class="btn btn-warning" 
+                                    ng-click="clearClientDetails()">Clear</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-6 no-gutters">
+            <div class="rightside">
+                <form>
+                    <table>
+                        <tr>
+                            <td>
+                                <input class="form-control" type="text" 
+                                       ng-model="searchBook" name="search" placeholder="Search.." id="search">
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-success"
+                                        ng-click="getBookRateListBySearch(SearchBook)" >
+                                    Search
+                                </button>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+                <table class="table">
+                    <tr>
+                        <td>
+                            <div class="badge bg-warning"
+                                 style="color:black">
+                                Online Book & Rate
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Book ID</th>
+                        <th>Book Name</th>
+                        <th>Book Rate</th>
+                    </tr>
+                    <tr ng-repeat="list in getBookRateList" class="warning table-hover">
 
-
+                        <td>{{list.BookId}}</td>
+                        <td>{{list.BookName}}</td>
+                        <td>{{list.BookRate}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
     </div>
 </body>
 <script>
