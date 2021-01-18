@@ -18,10 +18,13 @@
 
 </head>
 <body ng-app="BookApp" ng-controller="BookController">
+
     <br />
-
     <div class="row no-gutters warning">
-
+        @*<div class="well-sm">
+                <a href="#" ng-click="gotoClientform()" class="navbar-brand">Client Form</a>
+                <a href="#" ng-click="gotoClientList()" class="navbar-brand">List</a>
+            </div>*@
         <div class="col-md-6 no-gutters">
             <div class="leftside d-flex justify-content-center ">
                 <table>
@@ -39,7 +42,7 @@
                         </td>
                         <td>
                             <input type="text" class="form-control"
-                                   id="staticEmail" ng-model="Book.ClientName">
+                                   id="clientName" ng-model="Book.ClientName">
                         </td>
                     </tr>
                     <tr>
@@ -118,7 +121,7 @@
                         <td>
                         </td>
                         <td>
-                            <button type="button" class="btn btn-primary"
+                            <button type="button" class="btn btn-success"
                                     ng-click="saveClientDetails(Book)">
                                 Save
                             </button>
@@ -132,23 +135,34 @@
             </div>
         </div>
         <div class="col-md-6 no-gutters">
+            @*<span style="color:red" id="noRec"></span>*@
+            <div class="badge bg-warning"
+                 style="color:black">
+                Total Books:
+            </div> <strong>{{TotBookCount}}</strong>&nbsp;&nbsp;&nbsp;
+            <div class="badge bg-warning"
+                 style="color:black">
+                Searched Books:
+            </div><strong>{{searchBookCount!=0?searchBookCount:'NA'}}</strong>
             <div class="rightside">
                 <form>
                     <table>
                         <tr>
                             <td>
-                                <input class="form-control" type="text"
-                                       ng-model="searchBook" name="search" placeholder="Search.." id="search">
+                                <input class="form-control" type="search"
+                                       ng-model="search.bookS" name="search" placeholder="Search Book.." id="search">
                             </td>
                             <td>
                                 <button type="button" class="btn btn-success"
-                                        ng-click="getBookRateListBySearch(SearchBook)">
+                                        ng-click="getBookRateListBySearch(search)">
                                     Search
                                 </button>
                             </td>
                         </tr>
                     </table>
+
                 </form>
+
                 <table class="table">
                     <tr>
                         <td>
@@ -173,6 +187,81 @@
             </div>
         </div>
     </div>
+    <div>
+        <div class="badge bg-warning"
+             style="color:black">
+            Total Books:
+        </div> <strong>{{}}</strong>&nbsp;&nbsp;&nbsp;
+        <div class="badge bg-warning"
+             style="color:black">
+            Searched Books:
+        </div><strong>{{}}</strong>
+        <div class="rightside">
+            <form>
+                <table>
+                    <tr>
+                        <td>
+                            <input class="form-control" type="search"
+                                   ng-model="client.bookSearch" name="search" placeholder="Search Book.." >
+                        </td>
+                        <td>
+                            <input class="form-control" type="search"
+                                   ng-model="client.clientSearch" name="search" placeholder="Search Client.." >
+                        </td>
+                        <td>
+                            <input class="form-control" type="date"
+                                   ng-model="client.dateSearch" name="search"  >
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-success"
+                                    ng-click="getClientListBySearch(client)">
+                                Search
+                            </button>
+                        </td>
+                    </tr>
+                </table>
+
+            </form>
+            <table class="table">
+                <tr>
+                    <td>
+                        <div class="badge bg-warning"
+                             style="color:black">
+                            Client Details
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Client Name </th>
+                    <th>Book Name</th>
+                    <th>Purchase Date</th>
+                    <th>Book Rate</th>
+                    <th>Contact Number</th>
+                    <th>Email</th>
+                    <th>Age</th>
+                    <th>Address</th>
+                    <th>Edit</th>
+                </tr>
+                <tr ng-repeat="list in getClientList" class="warning table-hover">
+
+                    <td>{{list.ClientName}}</td>
+                    <td>{{list.BookName}}</td>
+                    <td>{{list.PurchaseDate}}</td>
+                    <td>{{list.BookRate}}</td>
+                    <td>{{list.ContactNumber}}</td>
+                    <td>{{list.Email}}</td>
+                    <td>{{list.Age}}</td>
+                    <td>{{list.Address}}</td>
+                    <td>
+                        <input type="button"
+                               ng-click="Edit($index)" value="Edit" />
+                        <input type="button" class=" btn-danger"
+                               ng-click="DeleteClientDetails(Book)" value="Delete" />
+
+                </tr>
+            </table>
+        </div>
+        </div>
 </body>
 <script>
     objBook.Init();

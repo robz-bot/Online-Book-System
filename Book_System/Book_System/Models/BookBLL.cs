@@ -40,7 +40,54 @@ namespace Book_System.Models
             }
             return tblBooks;
         }
-        public List<tblBookRateList> getBookRateListBySearch(string searchBook)
+        public List<tblClientDetailsList> getclientListBySearch(searchModuleForClient searchClient)
+        {
+            List<tblClientDetailsList> tblClients = new List<tblClientDetailsList>();
+            try
+            {
+                DataTable dt = new DataTable();
+                SqlCommand sqlCommand = new SqlCommand("dbo.USP_ClientDetailsTable", sqlConnection);
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+                sqlCommand.Parameters.AddWithValue("@searchBook", searchClient.bookSearch);
+                sqlCommand.Parameters.AddWithValue("@searchClient", searchClient.clientSearch);
+                sqlCommand.Parameters.AddWithValue("@date", searchClient.dateSearch);
+                sqlConnection.Open();
+
+                SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand);
+                sqlDataAdapter.Fill(dt);
+
+                tblClients = dt.AsEnumerable().Select(obj => new tblClientDetailsList(obj)).ToList();
+                sqlConnection.Close();
+            }
+            catch (Exception e)
+            {
+
+            }
+            return tblClients;
+        } 
+        public List<tblClientDetails> getclientList()
+        {
+            List<tblClientDetails> tblClients = new List<tblClientDetails>();
+            try
+            {
+                DataTable dt = new DataTable();
+                SqlCommand sqlCommand = new SqlCommand("dbo.USP_ClientDetailsTable", sqlConnection);
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+                sqlConnection.Open();
+
+                SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand);
+                sqlDataAdapter.Fill(dt);
+
+                tblClients = dt.AsEnumerable().Select(obj => new tblClientDetails(obj)).ToList();
+                sqlConnection.Close();
+            }
+            catch (Exception e)
+            {
+
+            }
+            return tblClients;
+        }
+        public List<tblBookRateList> getBookRateListBySearch(searchModuleForBook searchBook)
         {
             List<tblBookRateList> tblBookRateLists = new List<tblBookRateList>();
             try
@@ -48,7 +95,7 @@ namespace Book_System.Models
                 DataTable dt = new DataTable();
                 SqlCommand sqlCommand = new SqlCommand("dbo.USP_BookRateTable", sqlConnection);
                 sqlCommand.CommandType = CommandType.StoredProcedure;
-                sqlCommand.Parameters.AddWithValue("@searchBook", searchBook);
+                sqlCommand.Parameters.AddWithValue("@searchBook", searchBook.bookS);
                 sqlConnection.Open();
 
                 SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand);

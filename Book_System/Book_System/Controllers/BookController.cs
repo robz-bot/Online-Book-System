@@ -15,7 +15,6 @@ namespace Book_System.Controllers
         {
             return View();
         }
-
         public ActionResult getBookList()
         {
             string msg = string.Empty;
@@ -24,6 +23,40 @@ namespace Book_System.Controllers
             {
                 BookBLL BLL = new BookBLL();
                 res.Item = BLL.getBookList();
+                res.isSuccess = res.Item != null ? true : false;
+                res.Message = res.isSuccess == true ? "Success" : "Error while fetching the list";
+            }
+            catch (Exception ex)
+            {
+                msg = ex + "Failed";
+            }
+            return Json(res);
+        }
+        public ActionResult getclientList()
+        {
+            string msg = string.Empty;
+            Result res = new Result();
+            try
+            {
+                BookBLL BLL = new BookBLL();
+                res.Item = BLL.getclientList();
+                res.isSuccess = res.Item != null ? true : false;
+                res.Message = res.isSuccess == true ? "Success" : "Error while fetching the list";
+            }
+            catch (Exception ex)
+            {
+                msg = ex + "Failed";
+            }
+            return Json(res);
+        }   
+        public ActionResult getclientListBySearch(searchModuleForClient searchClient)
+        {
+            string msg = string.Empty;
+            Result res = new Result();
+            try
+            {
+                BookBLL BLL = new BookBLL();
+                res.Item = BLL.getclientListBySearch(searchClient);
                 res.isSuccess = res.Item != null ? true : false;
                 res.Message = res.isSuccess == true ? "Success" : "Error while fetching the list";
             }
@@ -50,7 +83,7 @@ namespace Book_System.Controllers
             }
             return Json(res);
         }
-        public ActionResult getBookRateListBySearch(string searchBook)
+        public ActionResult getBookRateListBySearch(searchModuleForBook searchBook)
         {
             string msg = string.Empty;
             Result res = new Result();
@@ -58,7 +91,7 @@ namespace Book_System.Controllers
             {
                 BookBLL BLL = new BookBLL();
                 res.Item = BLL.getBookRateListBySearch(searchBook);
-                res.isSuccess = res.Item != null ? true : false;
+                res.isSuccess = (res.Item != null) ? true : false;
                 res.Message = res.isSuccess == true ? "Success" : "Error while fetching the list";
             }
             catch (Exception ex)
