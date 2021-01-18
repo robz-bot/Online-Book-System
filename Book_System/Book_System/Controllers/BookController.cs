@@ -33,6 +33,40 @@ namespace Book_System.Controllers
             }
             return Json(res);
         }
+        public ActionResult getBookRateList()
+        {
+            string msg = string.Empty;
+            Result res = new Result();
+            try
+            {
+                BookBLL BLL = new BookBLL();
+                res.Item = BLL.getBookRateList();
+                res.isSuccess = res.Item != null ? true : false;
+                res.Message = res.isSuccess == true ? "Success" : "Error while fetching the list";
+            }
+            catch (Exception ex)
+            {
+                msg = ex + "Failed";
+            }
+            return Json(res);
+        }
+        public ActionResult getBookRateListBySearch(string searchBook)
+        {
+            string msg = string.Empty;
+            Result res = new Result();
+            try
+            {
+                BookBLL BLL = new BookBLL();
+                res.Item = BLL.getBookRateListBySearch(searchBook);
+                res.isSuccess = res.Item != null ? true : false;
+                res.Message = res.isSuccess == true ? "Success" : "Error while fetching the list";
+            }
+            catch (Exception ex)
+            {
+                msg = ex + "Failed";
+            }
+            return Json(res);
+        }
         public ActionResult saveClientDetails(tblClientDetails tblClientDetails)
         {
             Result result = new Result();
@@ -41,9 +75,9 @@ namespace Book_System.Controllers
                 BookBLL bookBLL = new BookBLL();
                 result.Item = bookBLL.saveClientDetails(tblClientDetails);
                 result.isSuccess = result.Item != null ? true : false;
-                result.Message = result.isSuccess ==true ? "Success" : "Error while adding the client";
+                result.Message = result.isSuccess == true ? "Success" : "Error while adding the client";
             }
-            catch(Exception e)
+            catch (Exception e)
             {
 
             }

@@ -40,7 +40,51 @@ namespace Book_System.Models
             }
             return tblBooks;
         }
+        public List<tblBookRateList> getBookRateListBySearch(string searchBook)
+        {
+            List<tblBookRateList> tblBookRateLists = new List<tblBookRateList>();
+            try
+            {
+                DataTable dt = new DataTable();
+                SqlCommand sqlCommand = new SqlCommand("dbo.USP_BookRateTable", sqlConnection);
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+                sqlCommand.Parameters.AddWithValue("@searchBook", searchBook);
+                sqlConnection.Open();
 
+                SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand);
+                sqlDataAdapter.Fill(dt);
+
+                tblBookRateLists = dt.AsEnumerable().Select(obj => new tblBookRateList(obj)).ToList();
+                sqlConnection.Close();
+            }
+            catch (Exception e)
+            {
+
+            }
+            return tblBookRateLists;
+        }
+        public List<tblBookRateList> getBookRateList()
+        {
+            List<tblBookRateList> tblBookRateLists = new List<tblBookRateList>();
+            try
+            {
+                DataTable dt = new DataTable();
+                SqlCommand sqlCommand = new SqlCommand("dbo.USP_BookRateTable", sqlConnection);
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+                sqlConnection.Open();
+
+                SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand);
+                sqlDataAdapter.Fill(dt);
+
+                tblBookRateLists = dt.AsEnumerable().Select(obj => new tblBookRateList(obj)).ToList();
+                sqlConnection.Close();
+            }
+            catch (Exception e)
+            {
+
+            }
+            return tblBookRateLists;
+        }
         public int saveClientDetails(tblClientDetails tblClientDetails)
         {
             int a = 0;
