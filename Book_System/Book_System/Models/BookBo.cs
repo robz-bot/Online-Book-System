@@ -18,6 +18,7 @@ namespace Book_System.Models
                     this.BookId = Convert.ToInt32(obj["BookId"]);
                     this.BookName = obj["BookName"].ToString();
                     this.Author = obj["Author"].ToString();
+
                 }
             }
 
@@ -37,24 +38,6 @@ namespace Book_System.Models
             public string Email { get; set; }
             public int Age { get; set; }
             public string Address { get; set; }
-        }
-
-        public class tblBookRateList
-        {
-            public tblBookRateList() { }
-            public tblBookRateList(DataRow obj)
-            {
-                if (obj != null)
-                {
-                    this.BookId = Convert.ToInt32(obj["BookId"]);
-                    this.BookName = obj["BookName"].ToString();
-                    this.BookRate = Convert.ToInt32(obj["Rate"]);
-                }
-            }
-
-            public int BookId { get; set; }
-            public String BookName { get; set; }
-            public int BookRate { get; set; }
         }
     }
 }
