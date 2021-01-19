@@ -49,7 +49,7 @@ namespace Book_System.Controllers
             }
             return Json(res);
         }   
-        public ActionResult getclientListBySearch(searchModuleForClient searchClient)
+        public ActionResult getclientListBySearch(searchModule searchClient)
         {
             string msg = string.Empty;
             Result res = new Result();
@@ -83,7 +83,7 @@ namespace Book_System.Controllers
             }
             return Json(res);
         }
-        public ActionResult getBookRateListBySearch(searchModuleForBook searchBook)
+        public ActionResult getBookRateListBySearch(searchModule searchBook)
         {
             string msg = string.Empty;
             Result res = new Result();
@@ -99,6 +99,22 @@ namespace Book_System.Controllers
                 msg = ex + "Failed";
             }
             return Json(res);
+        }
+        public ActionResult DeleteClientDetails(tblClientDetails tblClientDetails)
+        {
+            Result result = new Result();
+            try
+            {
+                BookBLL bookBLL = new BookBLL();
+                result.Item = bookBLL.DeleteClientDetails(tblClientDetails);
+                result.isSuccess = result.Item != null ? true : false;
+                result.Message = result.isSuccess == true ? "Success" : "Error while adding the client";
+            }
+            catch (Exception e)
+            {
+
+            }
+            return Json(result);
         }
         public ActionResult saveClientDetails(tblClientDetails tblClientDetails)
         {

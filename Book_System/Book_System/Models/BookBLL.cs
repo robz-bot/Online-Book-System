@@ -40,9 +40,9 @@ namespace Book_System.Models
             }
             return tblBooks;
         }
-        public List<tblClientDetailsList> getclientListBySearch(searchModuleForClient searchClient)
+        public List<tblClientDetails> getclientListBySearch(searchModule searchClient)
         {
-            List<tblClientDetailsList> tblClients = new List<tblClientDetailsList>();
+            List<tblClientDetails> tblClients = new List<tblClientDetails>();
             try
             {
                 DataTable dt = new DataTable();
@@ -56,7 +56,7 @@ namespace Book_System.Models
                 SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand);
                 sqlDataAdapter.Fill(dt);
 
-                tblClients = dt.AsEnumerable().Select(obj => new tblClientDetailsList(obj)).ToList();
+                tblClients = dt.AsEnumerable().Select(obj => new tblClientDetails(obj)).ToList();
                 sqlConnection.Close();
             }
             catch (Exception e)
@@ -71,15 +71,16 @@ namespace Book_System.Models
             try
             {
                 DataTable dt = new DataTable();
+                
                 SqlCommand sqlCommand = new SqlCommand("dbo.USP_ClientDetailsTable", sqlConnection);
                 sqlCommand.CommandType = CommandType.StoredProcedure;
                 sqlConnection.Open();
-
                 SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand);
                 sqlDataAdapter.Fill(dt);
+                sqlConnection.Close();
 
                 tblClients = dt.AsEnumerable().Select(obj => new tblClientDetails(obj)).ToList();
-                sqlConnection.Close();
+                
             }
             catch (Exception e)
             {
@@ -87,7 +88,7 @@ namespace Book_System.Models
             }
             return tblClients;
         }
-        public List<tblBookRateList> getBookRateListBySearch(searchModuleForBook searchBook)
+        public List<tblBookRateList> getBookRateListBySearch(searchModule searchBook)
         {
             List<tblBookRateList> tblBookRateLists = new List<tblBookRateList>();
             try
@@ -131,6 +132,24 @@ namespace Book_System.Models
 
             }
             return tblBookRateLists;
+        }
+        public int DeleteClientDetails(tblClientDetails tblClientDetails)
+        {
+            int a = 0;
+            try
+            {
+                SqlCommand sqlCommand = new SqlCommand("dbo.USP_DeleteClientById", sqlConnection);
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+                sqlCommand.Parameters.AddWithValue("@id", tblClientDetails.ClientId);
+                sqlConnection.Open();
+                a = sqlCommand.ExecuteNonQuery();
+                sqlConnection.Close();
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return a;
         }
         public int saveClientDetails(tblClientDetails tblClientDetails)
         {

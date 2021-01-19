@@ -1,11 +1,9 @@
-﻿//import { search } from "modernizr";
-
-var objBook = new function () {
+﻿var objBook = new function () {
     this.Init = function () {
         $myApp.controller("BookController", function ($scope, customService) {
-            $scope.value = "";
             $scope.SearchBook = null; 
-            $scope.s = null;
+            $scope.searchClient = 0;
+            $scope.searchBookCount = 0;
 
             $scope.clearClientDetails = function () {
                 $("#clientName").val(""); 
@@ -18,12 +16,23 @@ var objBook = new function () {
                 $("#address").val("");
             }
 
+            $scope.clearClientSearch = function () {
+                $("#dateSearch").val("");
+                $("#clientSearch").val("");
+                $("#bookSearch").val("");
+                $scope.getclientList(); 
+                $scope.searchClient = 0;
+            }
+
+            $scope.clearBookSearch = function () {
+                $("#search").val("");
+                $scope.getBookRateListBySearch(); 
+                $scope.searchBookCount = 0;
+            }
+
             $scope.getclientList = function () {
-                request = {}
-                request.s = ($scope.SearchBook != null && $scope.SearchBook != '' &&
-                    $scope.SearchBook != undefined) ? $scope.s : null;
                 customService.postData('Book/getclientList', {}, function (data) {
-                    //$scope.TotBookCount = data.Item.length;
+                    $scope.TotClientCount = data.Item.length;
                     if (data.isSuccess) {
                         $scope.getClientList = data.Item;
                     }
@@ -34,26 +43,59 @@ var objBook = new function () {
                 });
             }
 
+            $scope.DeleteClientDetails = function (list) {
+                var confirmDeletion = window.confirm("Do you want permanently delete the Client?");
+                if (confirmDeletion) {
+                    var obj = {};
+                    obj.ClientId = list;
+                    customService.postData('Book/DeleteClientDetails', obj.ClientId, function (data) {
+                        if (data.isSuccess) {
+                            alert("Client Deleted Succesfully ");
+                            $scope.getclientList();
+                        }
+                        else {
+                            alert("Error in Saving Client Details");
+                        }
+                    });
+                }
+                
+            }
 
             $scope.getClientListBySearch = function (client) {
-                //request = {}
-                //request.searchBook = ($scope.SearchBook != null && $scope.SearchBook != '' &&
-                //$scope.SearchBook != undefined) ? $scope.SearchBook : null;
-                customService.postData('Book/getclientListBySearch', client, function (data) {
-                    //$scope.searchBookCount = data.Item.length;
+                if (client.dateSearch != "NaN/NaN/NaN" ) {
+                    var dt = new Date(client.dateSearch);
+                    client.dateSearch = parseInt(dt.getMonth() + 1) + '/' + dt.getDate() + '/' + dt.getFullYear();
+
+                    customService.postData('Book/getclientListBySearch', client, function (data) {
+                        $scope.searchClient = data.Item.length;
                         if (data.isSuccess) {
                             $scope.getClientList = data.Item;
-                            $scope.getclientList(); 
                         }
                         else {
                             alert(data.Message);
-                            location.reload();
+                            $scope.getclientList();
                         }
-                });
+                    });
+                }
+                else if (client.clientSearch != null || client.bookSearch != null) {
+                    client.clientSearch = client.clientSearch;
+                    client.bookSearch = client.bookSearch;
+
+                    customService.postData('Book/getclientListBySearch', client, function (data) {
+                        $scope.searchClient = data.Item.length;
+                        if (data.isSuccess) {
+                            $scope.getClientList = data.Item;
+                        }
+                        else {
+                            alert(data.Message);
+                            $scope.getclientList();
+                        }
+                    });
+                }
             }
 
             $scope.getBookRateList = function () {
-                request = {}
+                request = {};
                 request.search = ($scope.SearchBook != null && $scope.SearchBook != '' &&
                     $scope.SearchBook != undefined) ? $scope.SearchBook : null;
                 customService.postData('Book/getBookRateList', search, function (data) {
@@ -69,9 +111,6 @@ var objBook = new function () {
             }
 
             $scope.getBookRateListBySearch = function (search) {
-                //request = {}
-                //request.searchBook = ($scope.SearchBook != null && $scope.SearchBook != '' &&
-                //$scope.SearchBook != undefined) ? $scope.SearchBook : null;
                 customService.postData('Book/getBookRateListBySearch', search, function (data) {
                     $scope.searchBookCount = data.Item.length;
                         if (data.isSuccess) {
@@ -81,33 +120,13 @@ var objBook = new function () {
                             alert(data.Message);
                             location.reload();
                         }
-                       // document.getElementById("noRec").innerHTML = "-- No Records Found --";
                 });
             }
-
-           
-
            
             $scope.Edit = function (index) {
-                request = {};
-                request.ClientName=$("#clientName").val($scope.getClientList[index].ClientName);
-                $("#drop").val($scope.getClientList[index].BookId);
-                $("#date").val($scope.getClientList[index].PurchaseDate);
-                $("#bookrate").val($scope.getClientList[index].BookRate);
-                $("#contact").val($scope.getClientList[index].ContactNumber);
-                $("#email").val($scope.getClientList[index].Email);
-                $("#age").val($scope.getClientList[index].Age);
-                $("#address").val($scope.getClientList[index].Address);
-                //$scope.EditItem.Country = $scope.Customers[index].Country;
-                //customService.postData('Book/saveClientDetails', request, function (data) {
-                //    if (data.isSuccess) {
-                //        alert("Client Details Updated Succesfully ");
-                //        window.location.reload();
-                //    }
-                //    else {
-                //        alert("Error in Saving Client Details");
-                //    }
-                //});
+                $scope.copyBook = angular.copy(Book);
+                $("#drop").val(index);
+                //alert($("#drop")[index].selectedIndex);
             }
 
             $scope.getBookList = function () {
@@ -123,8 +142,8 @@ var objBook = new function () {
                 });
             }
 
-            $scope.saveClientDetails = function (Book) {
-                customService.postData('Book/saveClientDetails', Book, function (data) {
+            $scope.saveClientDetails = function (copyBook) {
+                customService.postData('Book/saveClientDetails', copyBook, function (data) {
                     if (data.isSuccess) {
                         alert("Client Details Added Succesfully ");
                         window.location.reload();
@@ -134,8 +153,6 @@ var objBook = new function () {
                     }
                 });
             }
-
-
 
             $scope.getBookList();
             $scope.getBookRateList();
