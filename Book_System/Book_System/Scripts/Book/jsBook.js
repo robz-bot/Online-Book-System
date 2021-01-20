@@ -4,6 +4,17 @@
             $scope.SearchBook = null; 
             $scope.searchClient = 0;
             $scope.searchBookCount = 0;
+            $("#AddClientDiv").hide();
+
+            $scope.closeClientDetails = function () {
+                $("#AddClientDiv").hide();
+                $("#ListClientDiv").show();
+                $scope.clearClientDetails();
+            }
+
+            $scope.showClientAddDiv = function () {
+                $("#AddClientDiv").show();
+            }
 
             $scope.clearClientDetails = function () {
                 $("#clientName").val(""); 
@@ -62,7 +73,7 @@
             }
 
             $scope.getClientListBySearch = function (client) {
-                if (client.dateSearch != "NaN/NaN/NaN" ) {
+                if (client.dateSearch == "NaN/NaN/NaN" ) {
                     var dt = new Date(client.dateSearch);
                     client.dateSearch = parseInt(dt.getMonth() + 1) + '/' + dt.getDate() + '/' + dt.getFullYear();
 
@@ -123,10 +134,10 @@
                 });
             }
            
-            $scope.Edit = function (index) {
+            $scope.Edit = function (Book) {
                 $scope.copyBook = angular.copy(Book);
-                $("#drop").val(index);
-                //alert($("#drop")[index].selectedIndex);
+                $("#AddClientDiv").show();
+                $("#ListClientDiv").hide();
             }
 
             $scope.getBookList = function () {
@@ -143,15 +154,34 @@
             }
 
             $scope.saveClientDetails = function (copyBook) {
+                //if (copyBook.ClientId == 0) {
+                //    customService.postData('Book/saveClientDetails', copyBook, function (data) {
+                //        if (data.isSuccess) {
+                //            alert("Client Details Added Succesfully ");
+                //            $scope.getclientList();
+                //            $scope.clearClientDetails();
+                //        }
+                //        else {
+                //            alert("Error in Saving Client Details");
+                //        }
+                //    });
+                //}
+                //else {
                 customService.postData('Book/saveClientDetails', copyBook, function (data) {
-                    if (data.isSuccess) {
-                        alert("Client Details Added Succesfully ");
-                        window.location.reload();
-                    }
-                    else {
-                        alert("Error in Saving Client Details");
-                    }
-                });
+                    window.location.reload();
+                        if (data.isSuccess) {
+                            alert("Client Details Updated Succesfully");
+                            $scope.getclientList();
+                            //$("#AddClientDiv").load(location.href + " #AddClientDiv");
+                            $scope.closeClientDetails();
+                          
+                        }
+                        else {
+                            alert("Error in Updating Client Details");
+                        }
+                    });
+                //}
+               
             }
 
             $scope.getBookList();

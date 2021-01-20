@@ -17,14 +17,10 @@
     <link href="~/Content/cssBook.css" rel="stylesheet" />
 
 </head>
-<body ng-app="BookApp" ng-controller="BookController">
 
+<body ng-app="BookApp" ng-controller="BookController">
     <br />
-    <div class="row no-gutters warning">
-        @*<div class="well-sm">
-                <a href="#" ng-click="gotoClientform()" class="navbar-brand">Client Form</a>
-                <a href="#" ng-click="gotoClientList()" class="navbar-brand">List</a>
-            </div>*@
+    <div class="row no-gutters warning" id="AddClientDiv">
         <div class="col-md-6 no-gutters">
             <div class="leftside d-flex justify-content-center ">
                 <table>
@@ -122,12 +118,16 @@
                         </td>
                         <td>
                             <button type="button" class="btn btn-success"
-                                    ng-click="saveClientDetails(copyBook)">
+                                    ng-click="saveClientDetails(copyBook) ">
                                 Save
                             </button>
                             <button type="button" class="btn btn-warning"
                                     ng-click="clearClientDetails()">
                                 Clear
+                            </button>
+                            <button type="button" class="btn btn-primary"
+                                    ng-click="closeClientDetails()">
+                                Close
                             </button>
                         </td>
                     </tr>
@@ -138,7 +138,7 @@
             <div class="badge bg-warning"
                  style="color:black">
                 Total Books:
-            </div> <strong>{{TotBookCount}}</strong>&nbsp;&nbsp;&nbsp;
+            </div><strong>{{TotBookCount}}</strong>&nbsp;&nbsp;&nbsp;
             <div class="badge bg-warning"
                  style="color:black">
                 Searched Books:
@@ -153,7 +153,7 @@
                             </td>
                             <td>
                                 <button type="button" class="btn btn-success"
-                                        ng-click="getBookRateListBySearch(search)">
+                                        ng-click="getBookRateListBySearch(search) || event.keyCode == 13">
                                     Search
                                 </button>
                             </td>
@@ -191,11 +191,11 @@
             </div>
         </div>
     </div>
-    <div>
+    <div id="ListClientDiv">
         <div class="badge bg-warning"
              style="color:black">
             Total Clients:
-        </div> <strong>{{TotClientCount}}</strong>&nbsp;&nbsp;&nbsp;
+        </div><strong>{{TotClientCount}}</strong>&nbsp;&nbsp;&nbsp;
         <div class="badge bg-warning"
              style="color:black">
             Searched Client(s):
@@ -228,6 +228,12 @@
                                 Clear
                             </button>
                         </td>
+                        <td>
+                            <button type="button" class="btn btn-primary"
+                                    ng-click="showClientAddDiv()">
+                                Add Client
+                            </button>
+                        </td>
                     </tr>
                 </table>
 
@@ -255,7 +261,7 @@
                 <tr ng-repeat="list in getClientList" class="warning table-hover">
                     <td>{{list.ClientName}}</td>
                     <td>{{list.BookName}}</td>
-                    <td>{{list.PurchaseDate}}</td>@*DateFormat(list.PurchaseDate, 'mmm dd,yyyy')*@
+                    <td>{{list.PurchaseDate}}</td>  @*DateFormat(list.PurchaseDate, 'mmm dd,yyyy')*@
                     <td>{{list.BookRate}}</td>
                     <td>{{list.ContactNumber}}</td>
                     <td>{{list.Email}}</td>
